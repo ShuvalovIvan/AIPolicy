@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Policy - Lead by Learning</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --brand-green: #006F73;
+    --light-green: #79AE27;
+    --light-blue: #00AAC3;
+    --orange: #E46715;
+    --magenta: #CE0ACC;
+    --gray-dark: #56514E;
+    --gray-mid: #888;
+    --gray-light: #f5f5f4;
+    --gray-alt: #eceae8;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--white);
+    color: #333;
+    line-height: 1.6;
+  }
+
+  /* Logo Bar */
+  .logo-bar {
+    background: var(--white);
+    padding: 18px 40px;
+    text-align: center;
+    border-bottom: 3px solid var(--brand-green);
+  }
+
+  .logo-bar img {
+    max-width: 220px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Placeholder if no image */
+  .logo-bar .logo-placeholder {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: var(--gray-dark);
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  .logo-bar .logo-placeholder span { color: var(--brand-green); }
+
+  .logo-bar .logo-sub {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    color: var(--gray-mid);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--brand-green);
+    padding: 52px 40px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    background: rgba(255,255,255,0.04);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .hero::before { top: -40px; left: -30px; width: 220px; height: 254px; }
+  .hero::after { bottom: -50px; right: -20px; width: 160px; height: 185px; }
+
+  .hero-content { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--white);
+    letter-spacing: 1px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .hero h1 em { color: var(--light-green); font-style: normal; }
+
+  .hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+
+  .vision-bar {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .vision-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--white);
+  }
+
+  .vision-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .vd1 { background: var(--light-green); }
+  .vd2 { background: var(--light-blue); }
+  .vd3 { background: var(--orange); }
+  .vd4 { background: var(--magenta); }
+  .vd5 { background: var(--white); }
+
+  /* Full-width section bands */
+  .band { padding: 52px 0; }
+  .band-white { background: var(--white); }
+  .band-gray { background: var(--gray-light); }
+
+  .band-inner {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Shared section styles */
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--brand-green);
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+
+  .divider {
+    height: 3px;
+    background: linear-gradient(to right, var(--brand-green), var(--light-green), var(--light-blue), var(--orange));
+    margin-bottom: 28px;
+    border-radius: 2px;
+  }
+
+  sup.fn {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--orange);
+    cursor: default;
+    margin-left: 1px;
+    vertical-align: super;
+    line-height: 0;
+  }
+
+  /* Section 1: Commitment — white band */
+  .commitment-wrapper {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .commitment-wrapper .section-title {
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+
+  .commitment-subtitle {
+    font-size: 15px;
+    color: #777;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .commitment-items {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .commitment-card {
+    flex: 1;
+    min-width: 220px;
+    max-width: 280px;
+    padding: 28px 22px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    transition: box-shadow 0.25s;
+  }
+
+  .commitment-card:hover { box-shadow: 0 6px 20px rgba(0,111,115,0.1); }
+
+  .commitment-card:nth-child(1) { border-top: 4px solid var(--light-green); }
+  .commitment-card:nth-child(2) { border-top: 4px solid var(--light-blue); }
+  .commitment-card:nth-child(3) { border-top: 4px solid var(--orange); }
+
+  .cc-icon {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    margin: 0 auto 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+
+  .commitment-card:nth-child(1) .cc-icon { background: rgba(121,174,39,0.12); }
+  .commitment-card:nth-child(2) .cc-icon { background: rgba(0,170,195,0.12); }
+  .commitment-card:nth-child(3) .cc-icon { background: rgba(228,103,21,0.12); }
+
+  .commitment-card p {
+    font-size: 14px;
+    color: var(--gray-dark);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* Principles */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+  }
+
+  .principle-card {
+    background: var(--white);
+    border: 1px solid #e0e0e0;
+    border-top: 4px solid var(--brand-green);
+    border-radius: 4px;
+    padding: 22px 18px;
+    transition: box-shadow 0.25s;
+  }
+
+  .principle-card:hover { box-shadow: 0 4px 16px rgba(0,111,115,0.1); }
+  .principle-card:nth-child(2) { border-top-color: var(--light-blue); }
+  .principle-card:nth-child(3) { border-top-color: var(--light-green); }
+  .principle-card:nth-child(4) { border-top-color: var(--orange); }
+  .principle-card:nth-child(5) { border-top-color: var(--magenta); }
+
+  .hex-icon {
+    width: 48px; height: 55px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .hex-icon svg { position: absolute; top: 0; left: 0; }
+  .hex-icon span { position: relative; z-index: 1; font-size: 20px; }
+
+  .principle-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--gray-dark);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  .principle-card p { font-size: 13px; color: #666; line-height: 1.55; }
+
+  /* Roles */
+  .roles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  .role-card {
+    background: var(--gray-light);
+    border-radius: 4px;
+    padding: 24px 20px;
+    border-left: 4px solid var(--brand-green);
+  }
+
+  .role-card:nth-child(2) { border-left-color: var(--light-blue); }
+  .role-card:nth-child(3) { border-left-color: var(--light-green); }
+  .role-card:nth-child(4) { border-left-color: var(--orange); }
+
+  .role-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+
+  .role-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+
+  .role-card:nth-child(1) .role-icon { background: var(--brand-green); }
+  .role-card:nth-child(2) .role-icon { background: var(--light-blue); }
+  .role-card:nth-child(3) .role-icon { background: var(--light-green); }
+  .role-card:nth-child(4) .role-icon { background: var(--orange); }
+
+  .role-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--gray-dark);
+    letter-spacing: 0.3px;
+  }
+
+  .role-list { list-style: none; }
+
+  .role-list li {
+    font-size: 13px;
+    color: #555;
+    padding: 4px 0 4px 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .role-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--brand-green);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* Governance */
+  .gov-flow { display: flex; gap: 0; flex-wrap: wrap; }
+
+  .gov-step {
+    flex: 1;
+    min-width: 140px;
+    padding: 20px 14px;
+    text-align: center;
+    border-bottom: 3px solid var(--brand-green);
+    background: var(--white);
+  }
+
+  .gov-step:nth-child(even) { background: var(--gray-light); }
+  .gov-step:last-child { border-bottom-color: var(--light-green); }
+
+  .gov-step .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--brand-green);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 8px;
+  }
+
+  .gov-step:last-child .step-num { background: var(--light-green); }
+
+  .gov-step h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--gray-dark);
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .gov-step p { font-size: 11px; color: #888; line-height: 1.4; }
+
+  /* Prohibited */
+  .prohibited-banner {
+    background: var(--brand-green);
+    border-radius: 4px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .prohibited-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -30px;
+    width: 180px; height: 208px;
+    background: rgba(255,255,255,0.035);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  .prohibited-banner .section-title { color: var(--white); margin-bottom: 18px; position: relative; }
+
+  .prohibited-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    position: relative;
+  }
+
+  .prohibited-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+  }
+
+  .prohibited-x {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(228,103,21,0.9);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .prohibited-item span { font-size: 13px; color: rgba(255,255,255,0.9); }
+
+  /* Literacy */
+  .literacy-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) { .literacy-cols { grid-template-columns: 1fr; } }
+
+  .literacy-col {
+    background: var(--white);
+    border-radius: 4px;
+    padding: 24px;
+    border-top: 4px solid var(--light-blue);
+    border: 1px solid #e0e0e0;
+    border-top: 4px solid var(--light-blue);
+  }
+
+  .literacy-col:nth-child(2) { border-top-color: var(--light-green); }
+
+  .literacy-col h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--gray-dark);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  .literacy-col h3 .lc-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: white;
+  }
+
+  .literacy-col:nth-child(1) .lc-icon { background: var(--light-blue); }
+  .literacy-col:nth-child(2) .lc-icon { background: var(--light-green); }
+
+  .lit-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; }
+
+  .lit-check {
+    width: 18px; height: 18px;
+    border-radius: 3px;
+    background: var(--light-green);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .lit-item p { font-size: 13px; color: #555; line-height: 1.5; }
+
+  /* Footnotes */
+  .footnotes-section { padding-top: 0; }
+
+  .fn-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+
+  .fn-header-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    color: white;
+  }
+
+  .fn-header h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--brand-green);
+    letter-spacing: 0.5px;
+  }
+
+  .fn-header p { font-size: 12px; color: var(--gray-mid); }
+  .fn-group { margin-bottom: 20px; }
+
+  .fn-group-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--brand-green);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  .fn-entry { display: flex; gap: 10px; padding: 6px 0; align-items: flex-start; }
+
+  .fn-num {
+    min-width: 22px; height: 20px;
+    border-radius: 3px;
+    background: var(--orange);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .fn-text { font-size: 12px; color: #666; line-height: 1.55; }
+  .fn-text strong { color: var(--gray-dark); font-weight: 700; }
+  .fn-text a { color: var(--brand-green); text-decoration: none; word-break: break-all; }
+  .fn-text a:hover { text-decoration: underline; color: var(--orange); }
+
+  /* How We Made It */
+  .how-section {
+    background: var(--brand-green);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .how-section::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -60px;
+    width: 280px; height: 323px;
+    background: rgba(255,255,255,0.03);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  .how-section::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: 40px;
+    width: 200px; height: 231px;
+    background: rgba(255,255,255,0.025);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  .how-inner { padding: 44px 40px 40px; position: relative; z-index: 1; }
+
+  .how-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .how-intro {
+    font-size: 15px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.65;
+    max-width: 720px;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+
+  @media (max-width: 700px) { .how-steps { grid-template-columns: 1fr; } }
+
+  .how-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    padding: 22px 20px;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .how-step:hover { background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.2); }
+
+  .how-step-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+
+  .how-step:nth-child(1) .how-step-num { background: rgba(121,174,39,0.35); border-color: rgba(121,174,39,0.6); }
+  .how-step:nth-child(2) .how-step-num { background: rgba(0,170,195,0.35); border-color: rgba(0,170,195,0.6); }
+  .how-step:nth-child(3) .how-step-num { background: rgba(228,103,21,0.35); border-color: rgba(228,103,21,0.6); }
+  .how-step:nth-child(4) .how-step-num { background: rgba(206,10,204,0.3); border-color: rgba(206,10,204,0.5); }
+
+  .how-step-content { padding-top: 2px; }
+
+  .how-step-content h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+  }
+
+  .how-step-content p { font-size: 12.5px; color: rgba(255,255,255,0.72); line-height: 1.6; font-weight: 300; }
+
+  .how-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 24px;
+    background: rgba(255,255,255,0.06);
+    border-left: 4px solid var(--orange);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .how-note-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .how-note p { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; font-style: italic; font-weight: 300; }
+
+  /* Footer */
+  .footer-band {
+    background: var(--white);
+    border-top: 3px solid var(--brand-green);
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .footer-band .logo-placeholder {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--gray-dark);
+    letter-spacing: 1px;
+  }
+
+  .footer-band .logo-placeholder span { color: var(--brand-green); }
+
+  .footer-band .tagline {
+    font-size: 11px;
+    color: var(--gray-mid);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .footer-band p { font-size: 11px; color: var(--gray-mid); margin-top: 4px; }
+
+  .footer-band img { max-width: 200px; margin: 0 auto 8px; display: block; }
+</style>
+</head>
+<body>
+
+<!-- Logo Bar -->
+<div class="logo-bar">
+  <!-- Replace with: <img src="logo.png" alt="Lead by Learning" /> -->
+  <img src="logo.png" alt="Lead by Learning"/>
+  <!-- <div class="logo-placeholder">Lead <span>by</span> Learning</div>
+  <div class="logo-sub">Understand learning. Improve teaching. Build leadership.</div> -->
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">K-12 AI Policy Framework</div>
+    <h1>Artificial <em>Intelligence</em><br>in Education</h1>
+    <p>AI is a supporting technology — not a replacement for educators, curriculum, or human relationships. This policy ensures AI strengthens teaching, expands opportunity, and upholds community values.</p>
+    <div class="vision-bar">
+      <div class="vision-item"><div class="vision-dot vd1"></div>Enhance Learning</div>
+      <div class="vision-item"><div class="vision-dot vd2"></div>Build AI Literacy</div>
+      <div class="vision-item"><div class="vision-dot vd3"></div>Protect Privacy</div>
+      <div class="vision-item"><div class="vision-dot vd4"></div>Ensure Equity</div>
+      <div class="vision-item"><div class="vision-dot vd5"></div>Maintain Trust</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 1: Commitment — WHITE band -->
+<div class="band band-white">
+  <div class="band-inner">
+    <div class="commitment-wrapper">
+      <div class="section-label">Section 1</div>
+      <div class="section-title">Commitment to Human Dignity<br>& Educational Integrity</div>
+      <p class="commitment-subtitle">The district affirms these foundational beliefs about learning and technology.</p>
+      <div class="commitment-items">
+        <div class="commitment-card">
+          <div class="cc-icon">💬</div>
+          <p>Learning is fundamentally relational, creative, and human.<sup class="fn">1</sup></p>
+        </div>
+        <div class="commitment-card">
+          <div class="cc-icon">🛠️</div>
+          <p>AI can support learning, but cannot define it.<sup class="fn">2</sup></p>
+        </div>
+        <div class="commitment-card">
+          <div class="cc-icon">🌟</div>
+          <p>Technology must serve students — not the other way around.<sup class="fn">5</sup></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: Guiding Principles — GRAY band -->
+<div class="band band-gray">
+  <div class="band-inner">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Guiding Principles</div>
+    <div class="divider"></div>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="hex-icon">
+          <svg width="48" height="55" viewBox="0 0 48 55"><polygon points="24,2 46,15 46,40 24,53 2,40 2,15" fill="#006F73" opacity="0.12" stroke="#006F73" stroke-width="1.5"/></svg>
+          <span>🧑‍🏫</span>
+        </div>
+        <h3>Human-Centered Learning<sup class="fn">1</sup></h3>
+        <p>Teachers remain the primary designers of learning and relational anchors. AI assists but cannot replace instructional judgment.</p>
+      </div>
+      <div class="principle-card">
+        <div class="hex-icon">
+          <svg width="48" height="55" viewBox="0 0 48 55"><polygon points="24,2 46,15 46,40 24,53 2,40 2,15" fill="#00AAC3" opacity="0.12" stroke="#00AAC3" stroke-width="1.5"/></svg>
+          <span>⚖️</span>
+        </div>
+        <h3>Equity & Inclusion<sup class="fn">5,6</sup></h3>
+        <p>Tools evaluated for bias, accessibility barriers, and disparate impacts. Priority given to multilingual learners and underserved groups.</p>
+      </div>
+      <div class="principle-card">
+        <div class="hex-icon">
+          <svg width="48" height="55" viewBox="0 0 48 55"><polygon points="24,2 46,15 46,40 24,53 2,40 2,15" fill="#79AE27" opacity="0.12" stroke="#79AE27" stroke-width="1.5"/></svg>
+          <span>🔒</span>
+        </div>
+        <h3>Privacy & Data Protection<sup class="fn">4,7</sup></h3>
+        <p>Compliance with FERPA, state privacy laws, and district standards. Data minimization, transparency, and security required.</p>
+      </div>
+      <div class="principle-card">
+        <div class="hex-icon">
+          <svg width="48" height="55" viewBox="0 0 48 55"><polygon points="24,2 46,15 46,40 24,53 2,40 2,15" fill="#E46715" opacity="0.12" stroke="#E46715" stroke-width="1.5"/></svg>
+          <span>💡</span>
+        </div>
+        <h3>Transparency & Explainability<sup class="fn">8,9</sup></h3>
+        <p>Students, families, and educators understand how and why AI tools are used. AI systems must be explainable.</p>
+      </div>
+      <div class="principle-card">
+        <div class="hex-icon">
+          <svg width="48" height="55" viewBox="0 0 48 55"><polygon points="24,2 46,15 46,40 24,53 2,40 2,15" fill="#CE0ACC" opacity="0.12" stroke="#CE0ACC" stroke-width="1.5"/></svg>
+          <span>🤝</span>
+        </div>
+        <h3>Responsible & Ethical Use<sup class="fn">2,8</sup></h3>
+        <p>AI aligns with district values, avoids harm, and promotes student agency. Educators model and teach critical evaluation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Roles — WHITE band -->
+<div class="band band-white">
+  <div class="band-inner">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Roles & Responsibilities<sup class="fn">2,8</sup></div>
+    <div class="divider"></div>
+    <div class="roles-grid">
+      <div class="role-card">
+        <div class="role-header">
+          <div class="role-icon">👩‍🏫</div>
+          <h3>Educators<sup class="fn">1,3</sup></h3>
+        </div>
+        <ul class="role-list">
+          <li>Use AI to support lesson design & differentiation</li>
+          <li>Teach responsible, critical AI use</li>
+          <li>Monitor outputs for accuracy & bias</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <div class="role-icon">🎓</div>
+          <h3>Students<sup class="fn">3,5</sup></h3>
+        </div>
+        <ul class="role-list">
+          <li>Use AI ethically and only when permitted</li>
+          <li>Maintain academic integrity</li>
+          <li>Question, verify, and critique AI content</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <div class="role-icon">📋</div>
+          <h3>Administrators<sup class="fn">7,8</sup></h3>
+        </div>
+        <ul class="role-list">
+          <li>Maintain vetted approved tools list</li>
+          <li>Oversee training and compliance</li>
+          <li>Communicate with families about AI use</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-header">
+          <div class="role-icon">👨‍👩‍👧</div>
+          <h3>Families & Community<sup class="fn">2,9</sup></h3>
+        </div>
+        <ul class="role-list">
+          <li>Receive transparent information on AI tools</li>
+          <li>Provide feedback on policy</li>
+          <li>Participate in review cycles</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 4: Governance — GRAY band -->
+<div class="band band-gray">
+  <div class="band-inner">
+    <div class="section-label">Section 4</div>
+    <div class="section-title">Tool Approval & Governance<sup class="fn">7,8</sup></div>
+    <div class="divider"></div>
+    <div class="gov-flow">
+      <div class="gov-step">
+        <div class="step-num">1</div>
+        <h4>Privacy Review<sup class="fn">4</sup></h4>
+        <p>Data handling & compliance</p>
+      </div>
+      <div class="gov-step">
+        <div class="step-num">2</div>
+        <h4>Equity Audit<sup class="fn">5</sup></h4>
+        <p>Accessibility & bias check</p>
+      </div>
+      <div class="gov-step">
+        <div class="step-num">3</div>
+        <h4>Instructional Value</h4>
+        <p>Pedagogical alignment</p>
+      </div>
+      <div class="gov-step">
+        <div class="step-num">4</div>
+        <h4>Security Check<sup class="fn">7</sup></h4>
+        <p>Vendor reliability</p>
+      </div>
+      <div class="gov-step">
+        <div class="step-num">5</div>
+        <h4>Values Alignment</h4>
+        <p>District mission fit</p>
+      </div>
+      <div class="gov-step">
+        <div class="step-num">✓</div>
+        <h4>Approved List<sup class="fn">8</sup></h4>
+        <p>Public & updated</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div class="prohibited-banner">
+        <div class="section-label" style="color:var(--orange);">Section 4.1</div>
+        <div class="section-title">Prohibited Uses<sup class="fn" style="color:rgba(255,255,255,0.6);">10,11</sup></div>
+        <div class="prohibited-grid">
+          <div class="prohibited-item">
+            <div class="prohibited-x">✕</div>
+            <span>Automated high-stakes decision-making</span>
+          </div>
+          <div class="prohibited-item">
+            <div class="prohibited-x">✕</div>
+            <span>Surveillance or emotion-tracking<sup class="fn" style="color:rgba(255,255,255,0.5);">11</sup></span>
+          </div>
+          <div class="prohibited-item">
+            <div class="prohibited-x">✕</div>
+            <span>Predictive policing or behavioral profiling</span>
+          </div>
+          <div class="prohibited-item">
+            <div class="prohibited-x">✕</div>
+            <span>Replacing teachers or auto-grading without oversight<sup class="fn" style="color:rgba(255,255,255,0.5);">1</sup></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: AI Literacy — WHITE band -->
+<div class="band band-white">
+  <div class="band-inner">
+    <div class="section-label">Section 5</div>
+    <div class="section-title">AI Literacy & Professional Learning<sup class="fn">3,6</sup></div>
+    <div class="divider"></div>
+    <div class="literacy-cols">
+      <div class="literacy-col">
+        <h3><div class="lc-icon">🎓</div> Student AI Literacy<sup class="fn">3,5</sup></h3>
+        <div class="lit-item"><div class="lit-check">✓</div><p>How AI systems work at a conceptual level</p></div>
+        <div class="lit-item"><div class="lit-check">✓</div><p>Evaluating AI outputs for accuracy and bias</p></div>
+        <div class="lit-item"><div class="lit-check">✓</div><p>Ethical and responsible use practices</p></div>
+        <div class="lit-item"><div class="lit-check">✓</div><p>Social, cultural, and environmental impacts of AI</p></div>
+      </div>
+      <div class="literacy-col">
+        <h3><div class="lc-icon">👩‍🏫</div> Educator Development<sup class="fn">2,6</sup></h3>
+        <div class="lit-item"><div class="lit-check">✓</div><p>Effective instructional uses of AI</p></div>
+        <div class="lit-item"><div class="lit-check">✓</div><p>Privacy and data governance requirements</p></div>
+        <div class="lit-item"><div class="lit-check">✓</div><p>Identifying bias and inaccuracies in AI</p></div>
+        <div class="lit-item"><div class="lit-check">✓</div><p>Supporting students' critical AI literacy</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footnotes — GRAY band -->
+<div class="band band-gray">
+  <div class="band-inner">
+    <div class="footnotes-section">
+      <div class="fn-header">
+        <div class="fn-header-icon">📎</div>
+        <div>
+          <h2>Federal & California Policy References</h2>
+          <p>Where this district policy aligns with state and federal guidance</p>
+        </div>
+      </div>
+
+      <div class="fn-group">
+        <div class="fn-group-title">Federal Guidance</div>
+        <div class="fn-entry"><div class="fn-num">1</div><div class="fn-text"><strong>CA Dept. of Education, SB 1288 AI Workgroup (2025)</strong> — State Superintendent Thurmond emphasized the need for AI to enhance, not replace, the vital role of educators.<br><a href="https://www.cde.ca.gov/nr/ne/yr25/yr25rel39.asp" target="_blank">cde.ca.gov/nr/ne/yr25/yr25rel39.asp</a></div></div>
+        <div class="fn-entry"><div class="fn-num">2</div><div class="fn-text"><strong>U.S. Dept. of Education, Dear Colleague Letter (July 22, 2025)</strong> — Federal guidance affirming AI use must be educator-led, ethical, accessible, transparent, and privacy-compliant.<br><a href="https://www.ed.gov/about/news/press-release/us-department-of-education-issues-guidance-artificial-intelligence-use-schools-proposes-additional-supplemental-priority" target="_blank">ed.gov — AI Guidance Press Release</a></div></div>
+        <div class="fn-entry"><div class="fn-num">3</div><div class="fn-text"><strong>Executive Order: "Advancing AI Education for American Youth" (April 23, 2025)</strong> — National policy promoting AI literacy K–12 through postsecondary, with comprehensive teacher training.<br><a href="https://www.whitehouse.gov/presidential-actions/2025/04/advancing-artificial-intelligence-education-for-american-youth/" target="_blank">whitehouse.gov — Executive Order 14277</a></div></div>
+        <div class="fn-entry"><div class="fn-num">4</div><div class="fn-text"><strong>U.S. Dept. of Education, AI Toolkit (Oct. 2024)</strong> — 10-module toolkit addressing privacy, civil rights, accessibility, and strategic AI planning for K–12 leaders.<br><a href="https://tech.ed.gov/ai/" target="_blank">tech.ed.gov/ai</a></div></div>
+      </div>
+
+      <div class="fn-group">
+        <div class="fn-group-title">California Guidance</div>
+        <div class="fn-entry"><div class="fn-num">5</div><div class="fn-text"><strong>CA Dept. of Education, "Learning With AI, Learning About AI" (Updated Dec. 2025)</strong> — CDE guidance on equity, human-centered use, AI literacy, and responsible integration in TK–12.<br><a href="https://www.cde.ca.gov/ci/pl/aiincalifornia.asp" target="_blank">cde.ca.gov/ci/pl/aiincalifornia.asp</a></div></div>
+        <div class="fn-entry"><div class="fn-num">6</div><div class="fn-text"><strong>California AB 2876 (Signed Oct. 2024)</strong> — Mandates AI literacy integration into K–12 curricula statewide.<br><a href="https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB2876" target="_blank">CA Legislature — AB 2876</a></div></div>
+        <div class="fn-entry"><div class="fn-num">7</div><div class="fn-text"><strong>CA Dept. of Education, Updated AI Guidance on Data Privacy (Jan. 2026)</strong> — Expanded guidance on vendor data practices, model training, deletion policies, and FERPA/COPPA compliance.<br><a href="https://www.cde.ca.gov/ci/pl/aiincalifornia.asp" target="_blank">cde.ca.gov/ci/pl/aiincalifornia.asp</a></div></div>
+        <div class="fn-entry"><div class="fn-num">8</div><div class="fn-text"><strong>California SB 1288 — AI in Education Workgroup (2024–2026)</strong> — Legislatively mandated workgroup developing statewide model policy. Model policy due July 2026.<br><a href="https://www.cde.ca.gov/ci/pl/aiineducationworkgroup.asp" target="_blank">cde.ca.gov — AI Working Group</a></div></div>
+        <div class="fn-entry"><div class="fn-num">9</div><div class="fn-text"><strong>TeachAI / PACE, AI Guidance for Schools Toolkit (2023)</strong> — Seven principles: Purpose, Compliance, Knowledge, Balance, Integrity, Agency, Evaluation.<br><a href="https://edpolicyinca.org/publications/ai-policy-guidance-schools" target="_blank">edpolicyinca.org — AI Policy Guidance</a></div></div>
+      </div>
+
+      <div class="fn-group">
+        <div class="fn-group-title">Child Safety & Prohibited Uses</div>
+        <div class="fn-entry"><div class="fn-num">10</div><div class="fn-text"><strong>2025 State Legislative Trends in AI & Education (CDT)</strong> — Nationwide trend of bills prohibiting specific AI uses including student assessment and teacher replacement.<br><a href="https://cdt.org/insights/states-focused-on-responsible-use-of-ai-in-education-during-the-2025-legislative-session/" target="_blank">cdt.org — 2025 State AI Legislation</a></div></div>
+        <div class="fn-entry"><div class="fn-num">11</div><div class="fn-text"><strong>California AI Child Safety Laws (Signed Oct. 2025)</strong> — New requirements for AI chatbot providers serving minors, accountability for AI-generated harm, and deepfake protections.<br><a href="https://marketbrief.edweek.org/regulation-policy/california-implements-new-laws-regulating-ai-and-social-media-for-children/2025/11" target="_blank">EdWeek Market Brief — CA AI Laws</a></div></div>
+      </div>
+    </div>
+
+    <!-- How We Built This Policy -->
+    <div class="how-section">
+      <div class="how-inner">
+        <div class="section-label" style="color:var(--light-green);">Our Process</div>
+        <h2 class="how-title">How We Built This Policy</h2>
+        <p class="how-intro">This policy wasn't written in a vacuum. We studied what's working in schools leading the way on AI integration, grounded every provision in federal and California guidance, and shaped the result around our community's values.</p>
+        <div class="how-steps">
+          <div class="how-step"><div class="how-step-num">1</div><div class="how-step-content"><h4>Researched Innovative District Policies</h4><p>We hand-picked AI policies from districts recognized for thoughtful, forward-looking AI integration — balancing innovation with strong guardrails for students and educators.</p></div></div>
+          <div class="how-step"><div class="how-step-num">2</div><div class="how-step-content"><h4>Cross-Referenced Federal Guidelines</h4><p>Every section was checked against the U.S. Dept. of Education's Dear Colleague Letter, the White House Executive Order on AI Education, and the federal AI Toolkit for K–12.</p></div></div>
+          <div class="how-step"><div class="how-step-num">3</div><div class="how-step-content"><h4>Aligned with California Guidance</h4><p>Provisions mapped to the CDE's "Learning With AI" guidance, SB 1288 workgroup priorities, AB 2876 AI literacy mandates, and California's 2025 child safety legislation.</p></div></div>
+          <div class="how-step"><div class="how-step-num">4</div><div class="how-step-content"><h4>Centered Our Community's Values</h4><p>Filtered through what matters most to our educators, students, and families: human-centered learning, equity, privacy, and student-first technology.</p></div></div>
+        </div>
+        <div class="how-note"><div class="how-note-icon">💡</div><p>This is a living document. As California's SB 1288 model policy is finalized (expected July 2026) and federal guidance continues to evolve, we'll update this policy annually with input from our school community. Your voice matters — reach out to participate in our next review cycle.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer-band">
+  <!-- Replace with: <img src="logo.png" alt="Lead by Learning" /> -->
+  <div class="logo-placeholder">Lead <span>by</span> Learning</div>
+  <div class="tagline">Understand learning. Improve teaching. Build leadership.</div>
+  <p style="margin-top: 10px;">Policy reviewed annually with input from educators, students, families, and community partners</p>
+  <p>References current as of February 2026</p>
+</div>
+
+</body>
+</html>
